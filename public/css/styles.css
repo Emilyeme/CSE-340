@@ -4,3 +4,114 @@
 *:after {
   box-sizing: border-box;
 }
+
+body{
+font-family: Arial;
+margin:0;
+background:#f4f4f4;
+}
+
+#wrapper{
+max-width:1200px;
+margin:auto;
+background:white;
+}
+
+header{
+display:flex;
+justify-content:space-between;
+padding:10px;
+}
+
+
+h1{
+margin:20px;
+}
+
+
+nav ul{
+display:flex;
+justify-content:space-around;
+background:#333;
+padding:10px;
+list-style:none;
+}
+
+nav a{
+color:white;
+text-decoration:none;
+}
+
+
+/* HERO */
+
+.hero{
+display:flex;
+flex-direction:column;
+justify-content: space-between;
+align-items:center;
+position:relative;
+}
+
+.hero-text{
+color:#00a3c4;
+}
+
+.hero-text ul{
+list-style:none;
+padding:0;
+}
+
+.own-btn{
+background:#00a3c4;
+border:none;
+padding:10px 20px;
+color:white;
+cursor:pointer;
+}
+
+.hero img{
+width:100%;
+}
+
+/* UPGRADES */
+
+.upgrade-grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:15px;
+}
+
+.upgrade-item{
+background:#00a3c4;
+text-align:center;
+padding:10px;
+}
+
+.upgrade-item img{
+width:80px;
+}
+
+.upgrade-item a{
+display:block;
+color:blue;
+margin-top:5px;
+}
+
+/* REVIEWS */
+
+.reviews ul{
+padding-left:20px;
+}
+
+/* LARGE SCREEN */
+
+@media screen and (min-width:768px){
+
+.home-grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:40px;
+}
+
+}
