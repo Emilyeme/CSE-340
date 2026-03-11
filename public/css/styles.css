@@ -9,6 +9,7 @@ body{
 font-family: Arial;
 margin:0;
 background:#f4f4f4;
+color: #111;
 }
 
 #wrapper{
@@ -54,7 +55,7 @@ position:relative;
 }
 
 .hero-text{
-color:#00a3c4;
+color:#004a5a;
 }
 
 .hero-text ul{
@@ -63,7 +64,7 @@ padding:0;
 }
 
 .own-btn{
-background:#00a3c4;
+background:#006d85;
 border:none;
 padding:10px 20px;
 color:white;
@@ -83,7 +84,7 @@ gap:15px;
 }
 
 .upgrade-item{
-background:#00a3c4;
+background:#006d85;
 text-align:center;
 padding:10px;
 }
@@ -94,8 +95,9 @@ width:80px;
 
 .upgrade-item a{
 display:block;
-color:blue;
+color:white;
 margin-top:5px;
+font-size: bold;
 }
 
 /* REVIEWS */
