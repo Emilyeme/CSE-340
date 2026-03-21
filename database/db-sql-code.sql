@@ -4,7 +4,7 @@ CREATE TYPE public.accout_type AS ENUM (
     'Admin '
 );
 ALTER TYPE public.accout_type
- OWNER TO cse340_krgp;
+ OWNER TO render_12no_user;
 
  -- Table structure for table 'classification'
 CREATE TABLE public.classification(
