@@ -10,13 +10,25 @@ expressLayouts = require("express-ejs-layouts")
 const env = require("dotenv").config()
 const app = express()
 const static = require("./routes/static")
+const utilities = require("./utilities")
+const inventoryRoute = require("./routes/inventoryRoute")
+const baseController = require("./controllers/baseController")
 
+app.use(express.static("public"))
 /* ***********************
  * View Engine and Templates
  *************************/
 app.set("view engine", "ejs")
 app.use(expressLayouts)
 app.set("layout", "./layouts/layout") // not at views root
+
+
+app.use(async (req, res, next) => {
+  res.locals.nav = await utilities.getNav()
+  next()
+})
+
+
 
 /* ***********************
  * Routes
@@ -26,6 +38,49 @@ app.use(static)
 //Index route
 app.get("/", function(req, res){
   res.render("index", { title: "Home" })
+})
+
+// Inventory routes
+app.use("/inv", inventoryRoute)
+
+// Index route
+app.get("/", utilities.handleErrors(baseController.buildHome))
+
+/* ***********************
+* Express Error Handler
+* Place after all other middleware
+*************************/
+app.use(async (err, req, res, next) => {
+  let nav = await utilities.getNav()
+  console.error(`Error at: "${req.originalUrl}": ${err.message}`)
+  if(err.status == 404){ message = err.message} else {message = 'Oh no! There was a crash. Maybe try a different route?'}
+  res.render("errors/error", {
+    title: err.status || 'Server Error',
+    message,
+    nav
+  })
+})
+
+app.use((err, req, res, next) => {
+  console.error(err.stack)
+  res.status(500).render("errors/error", {
+    title: "Server Error",
+    message: err.message,
+  })
+})
+
+/* ***********************
+* Express Error Handler
+* Place after all other middleware
+*************************/
+app.use(async (err, req, res, next) => {
+  let nav = await utilities.getNav()
+  console.error(`Error at: "${req.originalUrl}": ${err.message}`)
+  res.render("errors/error", {
+    title: err.status || 'Server Error',
+    message: err.message,
+    nav
+  })
 })
 
 
@@ -41,4 +96,4 @@ const host = process.env.HOST
  *************************/
 app.listen(port, () => {
   console.log(`app listening on ${host}:${port}`)
-})
+})////////////////////////
