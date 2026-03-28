@@ -1,26 +1,26 @@
 // Needed Resources 
 const express = require("express")
-const router = new express.Router()
-
+const router = new express.Router() 
 const invController = require("../controllers/invController")
-const utilities = require("../utilities") // 
+const utilities = require("../utilities")
 
-// Route to build inventory by classification view
+router.get("/type/:classificationId", invController.buildByClassificationId);
+
+
+/* ****************************************
+ * Route to build vehicle detail view
+ **************************************** */
+router.get("/detail/:id", 
+utilities.handleErrors(invController.buildDetail))
+
+/* ****************************************
+ * Error Route
+ * Assignment 3, Task 3
+ **************************************** */
 router.get(
-  "/type/:classificationId",
-  utilities.handleErrors(invController.buildByClassificationId)
+  "/broken",
+  utilities.handleErrors(invController.throwError)
 )
 
-// Route for detail view
-router.get(
-  "/detail/:inv_id",
-  utilities.handleErrors(invController.buildByInventoryId) // 
-)
 
-// Route to trigger 500 error
-router.get(
-  "/trigger-error",
-  utilities.handleErrors(invController.triggerError) // 
-)
-
-module.exports = router
+module.exports = router;
