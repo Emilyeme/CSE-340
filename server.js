@@ -36,21 +36,19 @@ app.use(
     name: "sessionId",
   })
 )
-// Unit 4, Sessions & Messages Activity
+
+
+app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
+
+// Sessions & Messages Activity
 // Express Messages Middleware
 app.use(require("connect-flash")())
 app.use(function (req, res, next) {
   res.locals.messages = require("express-messages")(req, res)
   next()
 })
-app.use(express.json())
-app.use(express.urlencoded({ extended: true }))
 
-
-
-//  Process Registration Activity
-app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
 
 //  Authentication cookie use
 app.use(cookieParser())
