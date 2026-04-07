@@ -1,0 +1,51 @@
+
+
+<main class="account-container">
+  <h1><%= title %></h1>
+
+  <% if (messages && messages.error) { %>
+    <div class="flash-message error">
+      <%= messages.error %>
+    </div>
+  <% } %>
+
+  <% if (messages && messages.success) { %>
+    <div class="flash-message success">
+      <%= messages.success %>
+    </div>
+  <% } %>
+
+  <form action="/account/login.ejs" method="post" class="login-form">
+
+    <div class="form-group">
+      <label for="account_email">Email Address</label>
+      <input 
+        type="email" 
+        id="account_email" 
+        name="account_email" 
+        required
+      >
+    </div>
+
+    <div class="form-group">
+      <label for="account_password">Password</label>
+      <input 
+        type="password" 
+        id="account_password" 
+        name="account_password" 
+        required
+      >
+    </div>
+
+    <button type="submit" class="btn-login">Login</button>
+
+  </form>
+
+  <p class="register-link">
+    Don't have an account?
+    <a href="/account/register">Register here</a>
+  </p>
+
+</main>
+
+

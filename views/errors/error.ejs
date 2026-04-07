@@ -1,8 +1,4 @@
-<!-- views/errors/error.ejs -->
-<% if (title) { %>
-<h1><%= title %></h1>
-<% } else {
-  res.redirect('/')
-} %>
-
-<%- message %>
+<main>
+  <h1><%= title %></h1>
+  <p><%= message %></p>
+</main>

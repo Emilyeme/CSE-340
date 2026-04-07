@@ -1,0 +1,53 @@
+<%- include("../partials/header") %>
+
+<main class="account-container">
+  <h1><%= title %></h1>
+
+  <% if (messages && messages.error) { %>
+    <div class="flash-message error">
+      <%= messages.error %>
+    </div>
+  <% } %>
+
+  <form action="/account/register" method="post" class="register-form">
+
+    <p class="form-note">
+      All fields are required. Password must be:
+      <br>• Minimum 12 characters
+      <br>• At least 1 capital letter
+      <br>• At least 1 number
+      <br>• At least 1 special character
+    </p>
+
+    <div class="form-group">
+      <label for="account_firstname">First Name</label>
+      <input type="text" id="account_firstname" name="account_firstname" required>
+    </div>
+
+    <div class="form-group">
+      <label for="account_lastname">Last Name</label>
+      <input type="text" id="account_lastname" name="account_lastname" required>
+    </div>
+
+    <div class="form-group">
+      <label for="account_email">Email Address</label>
+      <input type="email" id="account_email" name="account_email" required>
+    </div>
+
+    <div class="form-group">
+      <label for="account_password">Password</label>
+      <input type="password" id="account_password" name="account_password" required>
+    </div>
+
+    <button type="submit" class="btn-login">Register</button>
+
+  </form>
+
+  <p class="register-link">
+    Already have an account?
+    <a href="/account/login">Login here</a>
+  </p>
+
+</main>
+
+<%- include("../partials/footer") %>

@@ -212,8 +212,36 @@ Util.buildSingleVehicleDisplay = async (vehicle) => {
   return svd
 }
 
+function buildVehicleDetail(data) {
+  return `
+    <div class="vehicle-detail">
+      
+      <div class="vehicle-image">
+        <img src="${data.inv_image}" alt="${data.inv_make} ${data.inv_model}">
+      </div>
+
+      <div class="vehicle-info">
+        <h2>${data.inv_year} ${data.inv_make} ${data.inv_model}</h2>
+
+        <p class="price">Price: $${new Intl.NumberFormat("en-US").format(data.inv_price)}</p>
+
+        <p>Mileage: ${new Intl.NumberFormat("en-US").format(data.inv_miles)} miles</p>
+
+        <p>Color: ${data.inv_color}</p>
+
+        <p class="description">${data.inv_description}</p>
+      </div>
+
+    </div>
+  `
+}
 
 
+
+function handleErrors(fn) {
+  return (req, res, next) =>
+    Promise.resolve(fn(req, res, next)).catch(next)
+}
 
 
 
