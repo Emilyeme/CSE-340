@@ -10,7 +10,7 @@ const validate = {}
  *  Classification Data Validation Rule
  *  Assignment 4, Task 2
  * ********************************* */
-validate.classificationRule = () => {
+validate.classificationRules = () => {
   return [
     // name is required and must be string
     body("classification_name")

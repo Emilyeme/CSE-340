@@ -48,5 +48,40 @@ function triggerError(req, res, next) {
   next(error)
 }
 
+async function buildManagement(req, res) {
+  let nav = await utilities.getNav()
+  res.render("inventory/management", {
+    title: "Inventory Management",
+    nav,
+    errors: null
+  })
+}
+
+async function addClassification(req, res) {
+  const { classification_name } = req.body
+  const result = await invModel.addClassification(classification_name)
+
+  if (result) {
+    req.flash("notice", "Classification added successfully.")
+    res.redirect("/inv/")
+  } else {
+    req.flash("notice", "Failed to add classification.")
+    res.redirect("/inv/add-classification")
+  }
+}
+
+async function buildAddInventory(req, res) {
+  let nav = await utilities.getNav()
+  let classificationList = await utilities.buildClassificationList()
+
+  res.render("inventory/add-inventory", {
+    title: "Add Inventory",
+    nav,
+    classificationList,
+    errors: null
+  })
+}
+
+
 
 module.exports = invCont

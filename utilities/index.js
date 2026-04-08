@@ -262,7 +262,20 @@ function handleErrors(fn) {
 
 Util.handleErrors = fn => (req, res, next) => Promise.resolve(fn(req, res, next)).catch(next)
 
+Util.buildClassificationList = async function (classification_id = null) {
+  let data = await invModel.getClassifications()
+  let list = '<select name="classification_id" required>'
+  list += "<option value=''>Choose a Classification</option>"
 
+  data.rows.forEach(row => {
+    list += `<option value="${row.classification_id}"`
+    if (classification_id == row.classification_id) list += " selected"
+    list += `>${row.classification_name}</option>`
+  })
+
+  list += "</select>"
+  return list
+}
 
 
 
