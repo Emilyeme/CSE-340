@@ -1,26 +1,14 @@
-<%# Unit 4, Assignment 4, Task 2 %>
-<% if (title) {%>
-<h1><%= title %></h1>
-<%} else {res.redirect('/')} %>
+<%- include('../partials/header') %>
+<h1>Add Classification</h1>
 
-<%- messages() %>
-
-<% if (errors) { %>
-<ul class="message warning">
-  <% errors.array().forEach(error => { %>
-  <li><%= error.msg %></li>
-  <%  }) %>
-</ul>
+<% if (messages().length > 0) { %>
+  <div class="flash-messages">
+    <%- messages() %>
+  </div>
 <% } %>
 
-<div id="registerContainer">
-  <p>Field is required.</p>
-  <form class="formSpread" action="/inventory/add-classification.ejs" method="post">
-    <fieldset>
-      <label for="carClassification">Classification Name</label>
-      <p>Name must be alphabetic characters only.</p>
-      <input type="text" name="classification_name" id="carClassification" required pattern="[a-zA-Z]*" value="<%= locals.classification_name %>">
-      <button type="submit">Add Classification</button>
-    </fieldset>
-  </form>
-</div>
+<form action="/inv/add-classification" method="post">
+  <label for="classificationName">Classification Name:</label>
+  <input type="text" name="classification_name" id="classificationName" required pattern="^[A-Za-z0-9]+$">
+  <button type="submit">Add Classification</button>
+</form>

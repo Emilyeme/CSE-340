@@ -1,36 +1,12 @@
-// Needed Resources 
-const express = require("express")
-const router = new express.Router() 
-const invController = require("../controllers/invController")
-const utilities = require("../utilities")
-const validation = require("../utilities/inventory-validation")
+const express = require('express')
+const router = express.Router()
+const invController = require('../controllers/invController.js')
+const { classificationRules, checkClassification } = require('../utilities/inventory-validation.js')
 
-router.get("/type/:classificationId", invController.buildByClassificationId);
+// Show Add Classification form
+router.get('/add-classification', invController.buildAddClassification)
 
+// Process form submission
+router.post("/add-classification", invController.addClassification);
 
-/* ****************************************
- * Route to build vehicle detail view
- **************************************** */
-router.get("/detail/:id", 
-utilities.handleErrors(invController.buildDetail))
-
-/* ****************************************
- * Error Route
- * Assignment 3, Task 3
- **************************************** */
-router.get(
-  "/broken",
-  utilities.handleErrors(invController.throwError)
-)
-
-router.get("/add-classification", utilities.handleErrors(invController.buildAddClassification))
-
-router.post(
-  "/add-classification",
-  validation.classificationRules(),
-  validation.checkClassificationData,
-  utilities.handleErrors(invController.addClassification)
-)
-
-
-module.exports = router;
+module.exports = router
