@@ -8,7 +8,8 @@ const { classificationRules, checkClassification } = require('../utilities/inven
 // --- PUBLIC ROUTES (No login required) ---
 router.get("/type/:classificationId", utilities.handleErrors(invController.buildByClassificationId))
 router.get("/detail/:invId", utilities.handleErrors(invController.buildByInvId))
-
+// Add Review Route (Requires login)
+router.post("/add-review", utilities.checkLogin, utilities.handleErrors(invController.addReview))
 
 // PROTECTED: Route to build the inventory management view
 router.get("/", utilities.checkLogin, utilities.checkAccountType, utilities.handleErrors(invController.buildManagementView))

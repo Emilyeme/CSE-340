@@ -1,5 +1,6 @@
 const utilities = require("../utilities/")
 const invModel = require("../models/inventory-model") // <-- ADDED: Required to get inventory data
+const reviewModel = require("../models/review-model") // <-- ADDED: Required to get review data
 
 /* ****************************************
  *  Deliver Add Classification View
@@ -181,6 +182,81 @@ async function deleteInventoryItem(req, res, next) {
   }
 }
 
+/* ***************************
+ *  Build vehicle detail view
+ * ************************** */
+async function buildByInvId(req, res, next) {
+  const inv_id = parseInt(req.params.invId)
+  let nav = await utilities.getNav()
+  const itemData = await invModel.getInventoryById(inv_id)
+  const reviews = await reviewModel.getReviewsByInvId(inv_id)
+  
+  // ---> ADD THIS LINE (It builds the HTML string for the car details) <---
+  const htmlData = await utilities.buildSingleVehicleDisplay(itemData)
+  
+  const className = itemData.classification_name
+  res.render("./inventory/detail", {
+    title: itemData.inv_make + " " + itemData.inv_model,
+    nav,
+    className,
+    itemData,
+    htmlData, // ---> ADD THIS LINE (Passes it to the view)
+    reviews   // (Your reviews are already here!)
+  })
+}
+
+/* ***************************
+ *  Process New Review
+ * ************************** */
+async function addReview(req, res, next) {
+  const { inv_id, review_text, review_rating } = req.body
+  const account_id = res.locals.accountData.account_id
+  
+  // Basic validation
+  if (!review_text || !review_rating) {
+    req.flash("notice", "Please provide both a rating and a review.")
+    return res.redirect(`/inv/detail/${inv_id}`)
+  }
+
+  const result = await reviewModel.addReview(inv_id, account_id, review_text, parseInt(review_rating))
+  
+  if (result) {
+    req.flash("notice", "Review added successfully!")
+  } else {
+    req.flash("notice", "Sorry, the review failed to post.")
+  }
+  return res.redirect(`/inv/detail/${inv_id}`)
+}
+
+/* ***************************
+ *  Build inventory by classification view
+ * ************************** */
+async function buildByClassificationId(req, res, next) {
+  const classification_id = parseInt(req.params.classificationId)
+  let nav = await utilities.getNav()
+  const data = await invModel.getInventoryByClassificationId(classification_id)
+  
+  let grid
+  if (data.length > 0) {
+    grid = await utilities.buildClassificationGrid(data)
+    let className = data[0].classification_name
+    res.render("./inventory/classification", {
+      title: className + " vehicles",
+      nav,
+      grid,
+      className
+    })
+  } else {
+    req.flash("notice", "Sorry, no matching vehicles could be found.")
+    res.render("./inventory/classification", {
+      title: "No vehicles found",
+      nav,
+      grid: '<p class="notice">Sorry, no matching vehicles could be found.</p>',
+      className: ""
+    })
+  }
+}
+
 /* ****************************************
  *  Export all functions at the bottom
  * *************************************** */
@@ -193,5 +269,7 @@ module.exports = {
   updateInventory,
   buildDeleteConfirmView,
   deleteInventoryItem
-   // If you have other functions like buildAddInventory, add them here as a comma-separated list!
+  ,addReview
+  , buildByInvId
+  , buildByClassificationId
 }

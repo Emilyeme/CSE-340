@@ -13,4 +13,65 @@
 <% } else { %>
 <p class="notice">Sorry, no matching vehicle could be found.</p>
 <% } %>
+<!-- REVIEW SECTION -->
+<section id="reviews-section" style="margin-top: 40px; border-top: 1px solid #ccc; padding-top: 20px;">
+  <h2>Customer Reviews</h2>
+
+  <!-- Display Existing Reviews -->
+  <% if (reviews.length > 0) { %>
+    <div class="review-list">
+      <% reviews.forEach(review => { %>
+        <div class="review-card" style="border: 1px solid #ddd; padding: 15px; margin-bottom: 15px; border-radius: 5px;">
+          <div class="review-header">
+            <strong><%= review.account_firstname %></strong> 
+            <span style="color: gold;">
+              <% for(let i=0; i<review.review_rating; i++) { %> &#9733; <% } %>
+              <% for(let i=review.review_rating; i<5; i++) { %> &#9734; <% } %>
+            </span>
+            <small style="margin-left: 10px;"><%= review.review_date.toDateString() %></small>
+          </div>
+          <p style="margin-top: 10px;"><%= review.review_text %></p>
+        </div>
+      <% }) %>
+    </div>
+  <% } else { %>
+    <p>No reviews yet. Be the first to review this vehicle!</p>
+  <% } %>
+
+  <!-- Add Review Form (Only show if logged in) -->
+  <% if (loggedin) { %>
+    <hr style="margin: 30px 0;">
+    <h3>Leave a Review</h3>
+    
+    <% if (messages && messages.notice) { %>
+      <div class="notice"><%= messages.notice %></div>
+    <% } %>
+
+    <form action="/inv/add-review" method="post" class="review-form">
+      <input type="hidden" name="inv_id" value="<%= itemData.inv_id %>">
+      
+      <div class="form-group">
+        <label for="review_rating">Rating (1-5 Stars):</label>
+        <select name="review_rating" id="review_rating" required>
+          <option value="">Select a Rating</option>
+          <option value="5">5 Stars (Excellent)</option>
+          <option value="4">4 Stars (Good)</option>
+          <option value="3">3 Stars (Average)</option>
+          <option value="2">2 Stars (Poor)</option>
+          <option value="1">1 Star (Terrible)</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="review_text">Your Review:</label>
+        <textarea id="review_text" name="review_text" rows="4" required placeholder="Tell us about your experience with this vehicle..."></textarea>
+      </div>
+
+      <button type="submit" class="btn">Submit Review</button>
+    </form>
+  <% } else { %>
+    <hr style="margin: 30px 0;">
+    <p><a href="/account/login">Log in</a> to leave a review.</p>
+  <% } %>
+</section>
 
