@@ -1,16 +1,19 @@
 <main class="account-container">
-<h1>Account Management</h1>
+  <h1>Account Management</h1>
 
-<%- messages() %>
+  <% if (messages && messages.notice) { %>
+    <div class="notice">
+      <%= messages.notice %>
+    </div>
+  <% } %>
 
-<% if (errors) { %>
-  <ul>
-    <% errors.array().forEach(error => { %>
-      <li><%= error.msg %></li>
-    <% }) %>
-  </ul>
-<% } %>
+  <h2>Welcome <%= firstName %></h2>
 
-<p>You're logged in</p>
+  <p><a href="/account/update/<%= account_id %>">Update Account Information</a></p>
+
+  <% if (accountType === 'Employee' || accountType === 'Admin') { %>
+    <h3>Inventory Management</h3>
+    <p><a href="/inv/">Access Inventory Management</a></p>
+  <% } %>
 
 </main>

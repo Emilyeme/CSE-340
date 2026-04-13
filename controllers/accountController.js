@@ -83,6 +83,8 @@ async function buildAccountManagement(req, res) {
   const firstName = res.locals.accountData.account_firstname
   const accountType = res.locals.accountData.account_type
 
+  console.log("THE ACCOUNT TYPE IS:", accountType)
+  
   res.render("account/account-management", {
     title: "Account Management",
     nav,
