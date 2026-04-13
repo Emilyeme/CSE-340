@@ -1,0 +1,51 @@
+<main class="account-container">
+  <h1><%= title %></h1>
+
+  <% if (messages && messages.notice) { %>
+    <div class="notice">
+      <%= messages.notice %>
+    </div>
+  <% } %>
+
+  <!-- FORM 1: Account Update -->
+  <form action="/account/update" method="post">
+    <input type="hidden" name="account_id" value="<%= account_id %>">
+    
+    <h2>Account Update</h2>
+    
+    <div class="form-group">
+      <label for="account_firstname">First Name</label>
+      <input type="text" id="account_firstname" name="account_firstname" value="<%= account_firstname %>" required>
+    </div>
+
+    <div class="form-group">
+      <label for="account_lastname">Last Name</label>
+      <input type="text" id="account_lastname" name="account_lastname" value="<%= account_lastname %>" required>
+    </div>
+
+    <div class="form-group">
+      <label for="account_email">Email</label>
+      <input type="email" id="account_email" name="account_email" value="<%= account_email %>" required>
+    </div>
+
+    <button type="submit">Update Account</button>
+  </form>
+
+  <hr>
+
+  <!-- FORM 2: Change Password -->
+  <form action="/account/update-password" method="post">
+    <input type="hidden" name="account_id" value="<%= account_id %>">
+    
+    <h2>Change Password</h2>
+    <p>Entering a new password will overwrite your current password. Requirements: Min 12 chars, uppercase, lowercase, number, special character.</p>
+    
+    <div class="form-group">
+      <label for="account_password">New Password</label>
+      <input type="password" id="account_password" name="account_password" required pattern="(?=^.{12,}$)(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*]).*$">
+    </div>
+
+    <button type="submit">Change Password</button>
+  </form>
+
+</main>

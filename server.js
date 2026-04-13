@@ -68,6 +68,8 @@ app.set("layout", "./layouts/layout") // not at views root
  * Routes
  *************************/
 app.use(static)
+
+app.use(utilities.checkJWTToken)
 // Index route - Unit 3, Robust Error Handling activity
 app.get("/", utilities.handleErrors(baseController.buildHome))
 // Inventory routes - Unit 3, Build Inventory route activity

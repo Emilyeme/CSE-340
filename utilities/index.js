@@ -1,3 +1,6 @@
+const jwt = require("jsonwebtoken")
+require("dotenv").config()
+
 const invModel = require("../models/inventory-model")
 
 
@@ -264,7 +267,7 @@ Util.handleErrors = fn => (req, res, next) => Promise.resolve(fn(req, res, next)
 
 Util.buildClassificationList = async function (classification_id = null) {
   let data = await invModel.getClassifications()
-  let list = '<select name="classification_id" required>'
+  let list = '<select name="classification_id" id="classificationList" required>'
   list += "<option value=''>Choose a Classification</option>"
 
   data.rows.forEach(row => {
@@ -277,6 +280,56 @@ Util.buildClassificationList = async function (classification_id = null) {
   return list
 }
 
+/* ****************************************
+* Middleware to check token validity
+**************************************** */
 
+
+Util.checkJWTToken = (req, res, next) => {
+  if (req.cookies.jwt) {
+    jwt.verify(req.cookies.jwt, process.env.ACCESS_TOKEN_SECRET, (err, accountData) => {
+      if (err) {
+        res.locals.loggedin = false
+        next()
+      } else {
+        res.locals.loggedin = true
+        res.locals.accountData = accountData
+        next()
+      }
+    })
+  } else {
+    res.locals.loggedin = false
+    next()
+  }
+}
+
+/* ****************************************
+ *  Check Login
+ * ************************************ */
+Util.checkLogin = (req, res, next) => {
+  console.log("checkLogin middleware running......")
+  console.log("res.locals.loggedin value: ", res.locals.loggedin)
+  if (res.locals.loggedin) {
+    console.log("User is logged in,proceeding...")
+    next()
+  } else {
+    console.log("User is not logged in, redirecting to login page...")
+    req.flash("notice", "Please log in.")
+    return res.redirect("/account/login")
+  }
+ }
+
+ /* ****************************************
+ *  Check Account Type (Employee or Admin)
+ * ************************************ */
+Util.checkAccountType = (req, res, next) => {
+  const accountType = res.locals.accountData.account_type
+  if (accountType === 'Employee' || accountType === 'Admin') {
+    next()
+  } else {
+    req.flash("notice", "You do not have permission to access this page.")
+    return res.redirect("/account/login")
+  }
+}
 
 module.exports = Util
