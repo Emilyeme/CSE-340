@@ -3,9 +3,6 @@
 <h1><%= title %></h1>
 <%} else {res.redirect('/')} %>
 
-<%- messages() %>
-
-<!-- USE THIS INSTEAD -->
 <% if (messages && messages.error) { %>
   <div class="flash-message error">
     <%= messages.error %>
@@ -17,24 +14,24 @@
     <%= messages.success %>
   </div>
 <% } %>
+<% if (messages && messages.notice) { %>
+  <div class="notice">
+    <%= messages.notice %>
+  </div>
+<% } %>
 
 <ul class="boldList">
-  <li><a href="/inv/newClassification/" title="Click to add a new vehicle classification">Add New Classification</a></li>
-  <li><a href="/inv/newVehicle/" title="Click to add a new vehicle">Add New Vehicle</a></li>
+  <li><a href="/inv/add-classification/" title="Click to add a new vehicle classification">Add New Classification</a></li>
+  <li><a href="/inv/add-inventory/" title="Click to add a new vehicle">Add New Vehicle</a></li>
 </ul>
-<!-- Add this right below your add classification/vehicle links -->
+
 <hr>
 <h2>Manage Inventory</h2>
 <p>Select a classification from the list to see the items belonging to the classification.</p>
 
-<!-- This outputs the dropdown list from the controller -->
 <%- classificationSelect %>
 
-<!-- The empty table where JavaScript will inject data -->
 <table id="inventoryDisplay"></table>
-
 <noscript>JavaScript must be enabled to use this page.</noscript>
 
-<!-- Link to the new JavaScript file -->
 <script src="../../js/inventory.js"></script>
-

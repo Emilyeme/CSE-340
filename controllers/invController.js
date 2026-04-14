@@ -256,6 +256,30 @@ async function buildByClassificationId(req, res, next) {
     })
   }
 }
+/* ***************************
+ *  Build Add Inventory View
+ * ************************** */
+async function buildAddInventory(req, res, next) {
+  let nav = await utilities.getNav()
+  const classificationSelect = await utilities.buildClassificationList()
+  
+  res.render("./inventory/add-inventory", {
+    title: "Add New Vehicle",
+    nav,
+    classificationSelect,
+    errors: null,
+    inv_make: "",
+    inv_model: "",
+    inv_year: "",
+    inv_description: "",
+    inv_image: "",
+    inv_thumbnail: "",
+    inv_price: "",
+    inv_miles: "",
+    inv_color: "",
+    classification_id: ""
+  })
+}
 
 /* ****************************************
  *  Export all functions at the bottom
@@ -272,4 +296,5 @@ module.exports = {
   ,addReview
   , buildByInvId
   , buildByClassificationId
+  , buildAddInventory
 }

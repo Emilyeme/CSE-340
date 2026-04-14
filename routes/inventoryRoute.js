@@ -20,6 +20,9 @@ router.get("/getInventory/:classification_id", utilities.checkLogin, utilities.c
 // PROTECTED: Show Add Classification form
 router.get('/add-classification', utilities.checkLogin, utilities.checkAccountType, utilities.handleErrors(invController.buildAddClassification))
 
+// ADD THIS LINE RIGHT HERE:
+router.get("/add-inventory", utilities.checkLogin, utilities.checkAccountType, utilities.handleErrors(invController.buildAddInventory))
+
 // PROTECTED: Process classification form submission
 router.post("/add-classification", utilities.checkLogin, utilities.checkAccountType, utilities.handleErrors(invController.addClassification))
 
